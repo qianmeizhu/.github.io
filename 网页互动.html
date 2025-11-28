@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>青岛创业补贴·黄金通关</title>
+    <style>
+        /* 基础样式：明亮风格+简化布局，避免样式冲突 */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Microsoft YaHei', Arial, sans-serif; }
+        body { background: #fef7fb; color: #333; min-height: 100vh; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .game-card { background: white; border-radius: 20px; padding: 30px; margin-bottom: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .title { font-size: 24px; color: #e53e3e; text-align: center; margin-bottom: 25px; font-weight: bold; }
+        .subtitle { font-size: 18px; color: #4a5568; margin: 15px 0; }
+        .dialog { background: #f8f9fa; border-radius: 12px; padding: 15px; margin: 12px 0; line-height: 1.6; font-size: 16px; }
+        .dialog.npc { border-left: 4px solid #4299e1; }
+        .dialog.player { border-left: 4px solid #9f7aea; }
+        .dialog.os { border-left: 4px solid #38b2ac; font-style: italic; color: #718096; }
+        /* 按钮样式：突出+可点击反馈 */
+        .btn { width: 100%; padding: 16px; margin: 10px 0; border: none; border-radius: 12px; font-size: 16px; cursor: pointer; transition: all 0.2s; }
+        .start-btn { background: #e53e3e; color: white; font-weight: bold; font-size: 18px; }
+        .start-btn:hover { background: #c53030; transform: translateY(-2px); }
+        .choice-a { background: #fff3e0; border: 2px solid #ed8936; color: #333; font-weight: bold; }
+        .choice-a:hover { background: #ffe0b2; }
+        .choice-b { background: #e8f5e9; border: 2px solid #48bb78; color: #333; font-weight: bold; }
+        .choice-b:hover { background: #c8e6c9; }
+        .back-btn { background: #ed8936; color: white; font-weight: bold; }
+        .back-btn:hover { background: #e67e22; }
+        .reward-btn { background: #4299e1; color: white; font-weight: bold; }
+        .reward-btn:hover { background: #3182ce; }
+        /* 场景控制：默认隐藏，仅显示active场景 */
+        .scene { display: none; }
+        .scene.active { display: block; animation: fadeIn 0.5s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        /* 倒计时样式 */
+        .countdown { background: #e53e3e; color: white; padding: 8px 16px; border-radius: 20px; font-weight: bold; display: inline-block; margin: 10px 0; }
+        .policy-tip { background: #e8f4f8; border-radius: 10px; padding: 12px; margin: 15px 0; text-align: center; font-weight: bold; color: #2d3748; }
+        .end-screen { text-align: center; padding: 30px 0; }
+        .end-amount { font-size: 48px; font-weight: bold; color: #e53e3e; margin: 20px 0; }
+        .qrcode { width: 180px; margin: 20px auto; border: 4px solid white; box-shadow: 0 3px 10px rgba(0,0,0,0.1); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 1. 序幕（初始显示） -->
+        <div class="scene active" id="scene-prologue">
+            <div class="game-card">
+                <h2 class="title">青岛创业补贴·黄金通关</h2>
+                <div class="dialog os">59个月了……我的手游工作室就差这最后一口气。这补贴，我必须拿到！</div>
+                <div style="background: #f8f9fa; border-radius: 12px; padding: 15px; margin: 20px 0; border-left: 4px solid #4299e1;">
+                    <div style="font-weight: bold; color: #e53e3e; margin-bottom: 8px;">【青岛人社】</div>
+                    <p>您申请的创业补贴将于30分钟后关闭。</p>
+                    <p>当前状态：材料不全。</p>
+                    <p>请尽快至各区政务大厅办理。</p>
+                </div>
+                <!-- 开始冲刺按钮：直接跳第一幕，无额外依赖 -->
+                <button class="btn start-btn" onclick="showScene('scene1')">
+                    <i>▶</i> 点击屏幕，开始冲刺
+                </button>
+            </div>
+        </div>
+
+        <!-- 2. 第一幕：生死59月 -->
+        <div class="scene" id="scene1">
+            <div class="game-card">
+                <h2 class="title">第一幕：生死59月</h2>
+                <div class="countdown" id="count1">30:00</div>
+                <p class="subtitle">青岛某区政务大厅·创业服务窗口</p>
+                <p style="color: #718096;">背景LED屏：“距离下班还有03:00:00”</p>
+
+                <div class="dialog player">王姐！我毕业整5年，是按公司注册时间算的对吧？我这补贴还有救吗？</div>
+                <div class="dialog npc">毕业五年整，一天不让蹭！系统显示，你2020年6月30日毕业，今天是2025年5月30日——正好59个月，还剩最后1个月的申请窗口！</div>
+                <div class="dialog os">天无绝人之路！</div>
+                <div class="dialog npc">别高兴太早！毕业证，是准绳，材料不全全都崩！你现在缺两份核心材料：场地租赁合同和近三个月社保凭证。</div>
+
+                <p style="font-weight: bold; color: #e53e3e; margin: 15px 0;">第一次关键选择</p>
+                <!-- 选择A：跳第一幕失败 -->
+                <button class="btn choice-a" onclick="showScene('scene1-fail')">
+                    A. 坚持己见。“王姐，我查了规定，应该是按注册时间算！”
+                </button>
+                <!-- 选择B：跳第二幕 -->
+                <button class="btn choice-b" onclick="showScene('scene2')">
+                    B. 虚心求教。“王姐，那我该怎么办？求指点！”
+                </button>
+            </div>
+        </div>
+
+        <!-- 3. 第一幕失败结局 -->
+        <div class="scene" id="scene1-fail">
+            <div class="game-card">
+                <div class="end-screen">
+                    <h2 class="title" style="color: #ed8936;">申请失败</h2>
+                    <p class="dialog">政策解读偏差，申请失败</p>
+                    <p style="color: #718096; margin: 15px 0;">您触发了【回档复盘】技能</p>
+                    <!-- 回第一幕按钮 -->
+                    <button class="btn back-btn" onclick="showScene('scene1')">
+                        ← 回到选择界面
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. 第二幕：合同杀机 -->
+        <div class="scene" id="scene2">
+            <div class="game-card">
+                <h2 class="title">第二幕：合同杀机</h2>
+                <div class="countdown" id="count2">25:00</div>
+                <div class="policy-tip">政策知识点1：毕业≤5年 + 正常营业1年 + 社保在缴 = 补贴申请入门券！</div>
+                <p class="subtitle">你的手游工作室</p>
+                <p style="color: #718096;">场景：略显凌乱的工作室</p>
+
+                <div class="dialog npc">街道核查。</div>
+                <div class="dialog player">周哥，合同在这。但房东人在国外，只有签名，暂时拿不到产权证……</div>
+                <div class="dialog npc">月租35元/平，你这40平，月租1400。创业补贴租金上限是30元/平，你这就叫——租金一超标，补贴打水漂！</div>
+
+                <p style="font-weight: bold; color: #e53e3e; margin: 15px 0;">第二次关键选择</p>
+                <!-- 选择A：跳第二幕失败 -->
+                <button class="btn choice-a" onclick="showScene('scene2-fail')">
+                    A. 试图蒙混过关。“周哥，通融一下，就按这个报吧？”
+                </button>
+                <!-- 选择B：跳第三幕 -->
+                <button class="btn choice-b" onclick="showScene('scene3')">
+                    B. 寻求合规方案。“周哥，有没有什么合规的办法能补救？”
+                </button>
+            </div>
+        </div>
+
+        <!-- 5. 第二幕失败结局 -->
+        <div class="scene" id="scene2-fail">
+            <div class="game-card">
+                <div class="end-screen">
+                    <h2 class="title" style="color: #ed8936;">申请失败</h2>
+                    <p class="dialog">租金超标，申请失败</p>
+                    <p style="color: #718096; margin: 15px 0;">您触发了【回档复盘】技能</p>
+                    <!-- 回第二幕按钮 -->
+                    <button class="btn back-btn" onclick="showScene('scene2')">
+                        ← 回到选择界面
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 6. 第三幕：终极叠加 -->
+        <div class="scene" id="scene3">
+            <div class="game-card">
+                <h2 class="title">第三幕：终极叠加</h2>
+                <div class="countdown" id="count3">20:00</div>
+                <div class="policy-tip">政策知识点2：房租别超标！开票要分割！（房租+物业费分开开票）</div>
+                <p class="subtitle">政务大厅·同一窗口</p>
+                <p style="color: #718096;">背景LED屏：“今日已服务200人”</p>
+
+                <div class="dialog player">（将一沓整齐的材料“啪”地放在王姐面前）</div>
+                <div class="dialog npc">一次性创业补贴1万——过！36个月社保补贴1万8——待定！岗位开发补贴2000——嗯？应届生劳动合同呢？</div>
+                <div class="dialog player">啊……还没来得及招。</div>
+
+                <p style="font-weight: bold; color: #e53e3e; margin: 15px 0;">第三次关键选择</p>
+                <!-- 选择A：跳普通结局 -->
+                <button class="btn choice-a" onclick="showScene('end-normal')">
+                    A. 放弃彩蛋。“就先申请1万吧，招人以后再说。”
+                </button>
+                <!-- 选择B：跳完美结局 -->
+                <button class="btn choice-b" onclick="showScene('end-happy')">
+                    B. 立刻激活彩蛋！“我现在就招！小王就在我那儿实习，我马上叫他来签合同！”
+                </button>
+            </div>
+        </div>
+
+        <!-- 7. 普通结局（1万元） -->
+        <div class="scene" id="end-normal">
+            <div class="game-card">
+                <div class="end-screen">
+                    <h2 class="title" style="color: #4299e1;">基础通关</h2>
+                    <div class="end-amount">1万元</div>
+                    <p class="dialog npc">恭喜你，基础通关！但遗憾也不少，本来你能拿更多元宝！</p>
+                    <!-- 去奖励页 -->
+                    <button class="btn reward-btn" onclick="showScene('end-reward')">
+                        查看终极奖励
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 8. 完美结局（3.2万元） -->
+        <div class="scene" id="end-happy">
+            <div class="game-card">
+                <div class="end-screen">
+                    <h2 class="title" style="color: #e53e3e;">完美通关</h2>
+                    <div class="end-amount">3.2万元</div>
+                    <div class="policy-tip">终极奥义：政策可叠加，雇人更划算！（1万+1.8万+0.2万=3.2万）</div>
+                    <p class="dialog npc">1万打底，1万8社保别断，招1人再送2千！总计——3.2万元！</p>
+                    <!-- 去奖励页 -->
+                    <button class="btn reward-btn" onclick="showScene('end-reward')">
+                        领取终极奖励
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 9. 终极奖励页 -->
+        <div class="scene" id="end-reward">
+            <div class="game-card">
+                <div class="end-screen">
+                    <h2 class="title" style="color: #9f7aea;">终极奖励：补贴地图</h2>
+                    <p style="margin: 15px 0; color: #4a5568;">恭喜通关！青岛创业补贴资料已为您打包完毕</p>
+                    <!-- 二维码（可替换为实际链接） -->
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https%3A%2F%2Fexample.com%2Fqingdao-subsidy" class="qrcode" alt="补贴地图二维码">
+                    <p style="color: #718096; margin: 10px 0;">扫码带走：政策公式、合同模板、官方入口</p>
+                    <!-- 重新开始按钮 -->
+                    <button class="btn start-btn" onclick="showScene('scene-prologue')">
+                        重新开始游戏
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 核心函数：仅负责显示目标场景，隐藏其他所有场景（无复杂依赖）
+        function showScene(targetId) {
+            // 1. 隐藏所有场景
+            const allScenes = document.querySelectorAll('.scene');
+            allScenes.forEach(scene => {
+                scene.classList.remove('active');
+            });
+            // 2. 显示目标场景
+            const targetScene = document.getElementById(targetId);
+            if (targetScene) {
+                targetScene.classList.add('active');
+                // 3. 滚动到页面顶部（避免场景切换后位置错乱）
+                window.scrollTo(0, 0);
+                // 4. 启动对应场景的倒计时（仅触发一次）
+                if (targetId === 'scene1') startCountdown('count1', 30 * 60);
+                if (targetId === 'scene2') startCountdown('count2', 25 * 60);
+                if (targetId === 'scene3') startCountdown('count3', 20 * 60);
+            }
+        }
+
+        // 倒计时函数：仅处理分秒显示，不影响按钮逻辑
+        function startCountdown(elementId, totalSeconds) {
+            const countEl = document.getElementById(elementId);
+            if (!countEl) return;
+
+            let seconds = totalSeconds;
+            // 避免重复启动倒计时（防止多次点击导致速度变快）
+            if (countEl.getAttribute('isRunning') === 'true') return;
+            countEl.setAttribute('isRunning', 'true');
+
+            // 更新倒计时显示
+            function updateTime() {
+                if (seconds <= 0) {
+                    countEl.textContent = '00:00';
+                    return;
+                }
+                const mins = Math.floor(seconds / 60);
+                const secs = seconds % 60;
+                // 补零为两位数（如 5→05）
+                countEl.textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+                seconds--;
+            }
+
+            // 初始显示+每秒更新
+            updateTime();
+            setInterval(updateTime, 1000);
+        }
+
+        // 页面加载完成后，确保序幕是唯一显示的场景
+        window.onload = function() {
+            showScene('scene-prologue');
+        };
+    </script>
+</body>
+</html>
